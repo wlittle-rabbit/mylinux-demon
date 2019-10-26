@@ -27,18 +27,35 @@ void List_init(List_t *pxlist)
 }
 void List_insert(List_t *pxlist,ListItem_t *newitem)
 {
+	pxlist->number++;
+	ListItem_t *p;
 	if( !pxlist->number){
-
+		p=pxlist->listend.pre;
 	}
 	else{
-		
+		for(p=(ListItem_t *)&pxlist->listend;p->value>newitem->value;p=p->pre);	
 	}
+	newitem->next=p->next;	
+	newitem->next->pre=newitem;
+	p->next=newitem;
+	newitem->pre=p;
+}
+void list_print(List_t *pxlist)
+{
+	printf("the list number is %d\n",pxlist->number);
 }
 int main()
 {
 	List_t *mylist;
 	List_init(mylist);
+	ListItem_t item1,item2,item3;
+	item1.value=1;
+	item2.value=2;
+	item3.value=3;
+	List_insert(mylist,&item2);
+	List_insert(mylist,&item3);
+	List_insert(mylist,&item1);
+
 	
 	printf("hello\n");
-
 }
