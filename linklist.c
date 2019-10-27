@@ -1,3 +1,9 @@
+/**************************
+实验结论
+	定义一个结构体指针后，需要分配内存
+	for循环是先判断条件，再执行，与while循环相同
+	本实验实现双链表节点元素大小顺序插入
+**************************/
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -31,12 +37,11 @@ void List_insert(List_t *pxlist,ListItem_t *newitem)
 {
 	ListItem_t *p;
 	if( !pxlist->number){
-		p=pxlist->listend.pre;//error: p=(ListItem_t *)&pxlist->listend.pre;
+		p=pxlist->listend.pre;
 		pxlist->pindex=newitem;		
 	}
 	else{
 		printf("the list item number is %d\n",pxlist->number);
-		//for(p=(ListItem_t *)&pxlist->listend.pre;(p->value>=newitem->value)&&(p!=(ListItem_t *)&pxlist->listend.next);p=p->pre);	
 		for(p=pxlist->listend.pre;(p->value>=newitem->value)&&(p!=(ListItem_t *)&pxlist->listend);p=p->pre);
 	}
 	newitem->next=p->next;
@@ -46,40 +51,16 @@ void List_insert(List_t *pxlist,ListItem_t *newitem)
 	pxlist->number++;
 	printf("the newitem value is %d\n",newitem->value);
 	printf("the p value is %d\n",p->value);
-	
-	printf("---list_print func start---\n");
-        printf("the list item number is %d\n",pxlist->number);
-        ListItem_t* tmp;
-        tmp=pxlist->listend.next;//error: tmp=(ListItem_t *)&pxlist->listend.next; 
-        while(tmp!=&pxlist->listend)//error: while(tmp!=(ListItem_t*)&pxlist->listend)
-        {
-		printf("the item value is %d\n",tmp->value);
-                tmp=tmp->next;
-        }
-
-        //for(tmp=(ListItem_t*)&pxlist->listend.next;tmp!=(ListItem_t*)&pxlist->listend;tmp=tmp->next){
-        //      printf("the item value is %d\n",tmp->value);
-        //}
-        printf("---list_print func end---\n");
 }
 void list_print(List_t *pxlist)
 {
-	printf("list_print func start\n");
-	printf("the list item number is %d\n",pxlist->number);
-	ListItem_t* tmp;
-//	tmp=malloc(sizeof(ListItem_t));
-	tmp=(ListItem_t*)&pxlist->listend.next;
-	while(tmp!=(ListItem_t*)&pxlist->listend)
-	{
-		tmp=tmp->next;
-	//	printf("the item value is %d\n",tmp->value);
-	}
-
-	//for(tmp=(ListItem_t*)&pxlist->listend.next;tmp!=(ListItem_t*)&pxlist->listend;tmp=tmp->next){
-	//	printf("the item value is %d\n",tmp->value);
-	//}
-//	free(tmp);
-	printf("list_print func end\n");
+	printf("---list_print func start---\n");
+        printf("the list item number is %d\n",pxlist->number);
+        ListItem_t* tmp;
+        for(tmp=pxlist->listend.next;tmp!=&pxlist->listend;tmp=tmp->next){
+              printf("the item value is %d\n",tmp->value);
+        }
+        printf("---list_print func end---\n");
 }
 int main()
 {
@@ -98,13 +79,11 @@ int main()
 	item4.value=4;
 	item5.value=3;
 	List_insert(mylist,&item3);
-	//list_print(mylist);
 	List_insert(mylist,&item2);
-	//list_print(mylist);
 	List_insert(mylist,&item1);
 	List_insert(mylist,&item4);
 	List_insert(mylist,&item5);
-	//list_print(mylist);
+	list_print(mylist);
 	free(mylist);
 	printf("main end\n");
 }
